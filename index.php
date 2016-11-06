@@ -420,9 +420,6 @@ switch ($uri[1]) {
       if(isset($_SESSION["token"])){
         $query = "SELECT * FROM blog WHERE blog LIKE '%$k%' ORDER BY time DESC";
       }
-      else{
-        $query = "SELECT * FROM blog WHERE blog LIKE '%$k%' AND `private` != 1 ORDER BY time DESC";
-      }
       $result = mysqli_query($sql_sy, $query);
       
       if (mysqli_num_rows($result) == 0) $content .= "找不到與「".$k."」相關的資料\n";
