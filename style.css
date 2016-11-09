@@ -13,7 +13,8 @@ body{
 	background-attachment:fixed;
 	background-color:#000;
 	text-shadow: #AAA 1px 1px 3px;
-    overflow-y:scroll;
+        overflow-y:scroll;
+        overflow-x:hidden;
 }
 div::selection {
 	background:#000000;
