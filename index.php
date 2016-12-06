@@ -428,7 +428,7 @@ switch ($uri[1]) {
         while($row = mysqli_fetch_assoc($result)){
           $res .= '<div style="height:125px">'."\n";
           $res .= '<a href="/blog/'.$row["id"].'/" style="font-size:16px;">'.$row["title"]."</a><br />\n";
-          $res .= '<font style="color:#093;font-size:12px;">blog.soruly.hk/blog/'.$row["id"]."/</font>";
+          $res .= '<font style="color:#093;font-size:12px;">blog.soruly.com/blog/'.$row["id"]."/</font>";
           $res .= ' - <font style="color:#666;font-size:12px;" class="time" data-time="'.$row["time"].'">'."</font><br />\n";
           $res .= '<font style="font-size:12px;">...'.match($row["blog"], $search_str)."...</font><br><br>"."\n";
           $res .=  '</div>'."\n";
