@@ -13,6 +13,8 @@ function logout(){
 
 $("#blog_title").attr("contenteditable", "false");
 
+$(document).unbind('keydown');
+
 $.ctrl = function(key, callback, args) {
     $(document).keydown(function(e) {
         if(!args) args=[]; // IE barks when args is null
