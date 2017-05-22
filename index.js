@@ -172,9 +172,16 @@ $.ctrl('Q', function() {
   }
 });
 
-
 function save(){
   document.title = "Saving...";
+  window.onbeforeunload = function (e) {
+    var message = "Your changes have not been saved yet!",
+      e = e || window.event;
+    if (e) {
+      e.returnValue = message;
+    }
+    return message;
+  };
   var private = $("#blog_private").html() == "private" ? 1 : 0;
   var datetime = utc_time($("#blog_time").html());
   $.ajax({
@@ -188,6 +195,7 @@ function save(){
       $("#bbcode").html(html_2_bbcode($("#blog_content").html()));
       if(msg != ""){alert(msg);}
       else{document.title = "SolarDay";}
+      window.onbeforeunload = null;
     }
   });
 }
