@@ -18,6 +18,12 @@ logoutButton.addEventListener('click', logout);
 document.querySelector("#blog_foot").innerHTML = '';
 document.querySelector("#blog_foot").appendChild(logoutButton);
 
+document.querySelectorAll("#emoticon .icon").forEach(function(icon){
+  icon.addEventListener('click',function(){
+    addemoticon(icon.style.backgroundImage.slice(5,-2));
+  });
+});
+
 $("#blog_title").attr("contenteditable", "false");
 
 $(document).unbind('keydown');
