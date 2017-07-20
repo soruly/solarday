@@ -566,7 +566,7 @@ if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
         while (($file = readdir($dh)) !== false) {
       $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-      if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" onClick="addemoticon(\''.$dir.$file.'\')" alt /></div>'."\n";
+      if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onClick="addemoticon(\''.$dir.$file.'\')" alt /></div>'."\n";
         }
         closedir($dh);
     }
