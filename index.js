@@ -11,6 +11,13 @@ function logout(){
   });
 }
 
+var logoutButton = document.createElement('a');
+logoutButton.textContent = 'logout';
+logoutButton.addEventListener('click', logout);
+
+document.querySelector("#blog_foot").innerHTML = '';
+document.querySelector("#blog_foot").appendChild(logoutButton);
+
 $("#blog_title").attr("contenteditable", "false");
 
 $(document).unbind('keydown');

@@ -14,6 +14,21 @@ function login(pwd){
   }
 }
 
+
+var loginButton = document.createElement('a');
+loginButton.textContent = 'login';
+loginButton.addEventListener('click', function() {
+  $('#login').blindshow();
+  $('#pwd').focus();
+});
+
+document.querySelector("#blog_foot").innerHTML = '';
+document.querySelector("#blog_foot").appendChild(loginButton);
+document.querySelector("#login>form").addEventListener('submit', function(){
+  login(document.querySelector("#pwd").value);
+  return false;
+});
+
 function zerofill(number) {
     result = number.toString().length == 1 ? '0' + number.toString() : number.toString();
     return result;

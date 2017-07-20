@@ -66,8 +66,6 @@ switch ($uri[1]) {
       $content .= '<div id="blog_content">'.fmt_blog($row["blog"])."</div>";
     }
     $content .= '<div id="blog_foot">';
-    if(isset($_SESSION["token"])) $content .= '<a href="javascript:logout()">logout</a>';
-    else $content .= '<a href="javascript:$(\'#login\').blindshow();$(\'#pwd\').focus()">login</a>';
     $content .= '</div>';
     
     mysqli_free_result($result);
@@ -112,8 +110,6 @@ switch ($uri[1]) {
           $content .= '<div id="blog_content">'.fmt_blog($row["blog"])."</div>";
         }
         $content .= '<div id="blog_foot">';
-        if(isset($_SESSION["token"])) $content .= '<a href="javascript:logout()">logout</a>';
-        else $content .= '<a href="javascript:$(\'#login\').blindshow();$(\'#pwd\').focus()">login</a>';
         $content .= '</div>';
         
         $time = $row["time"];
@@ -552,32 +548,12 @@ switch ($uri[1]) {
 <a href="/search/">Search</a>
 <?php if(isset($next_blog)) echo ' - <a href="/blog/'.$next_blog.'/">&gt;&gt;</a>'; elseif(isset($prev_blog)) echo ' - &gt;&gt;'; ?>
 </div>
-
-<script type="text/javascript" src="/common.js"></script>
-
-<?php
-  if(isset($_SESSION["token"])){
-?>
-<script type="text/javascript" src="/jquery.html5uploader.js"></script>
-<script type="text/javascript" src="/index.js"></script>
-<?php
-}
-?>
 <br>
-<footer>
-<div style="float:right">
-Powered by SYTeam<br />
-All Rights Reserved
-</div>
-<div>
-<img src="/image/logo.png" width="32" height="32" alt="" />
-</div>
-</footer>
 </div>
 <div id="blind"></div>
 
 <div id="login">
-<form onSubmit="login(pwd.value);return false;">
+<form>
 Password: <input id="pwd" type="password" />
 <input type="submit" value="Login" />
 </form>
@@ -590,7 +566,7 @@ if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
         while (($file = readdir($dh)) !== false) {
       $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-      if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="/image/blank.gif" onClick="addemoticon(\''.$dir.$file.'\')" alt /></div>'."\n";
+      if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" onClick="addemoticon(\''.$dir.$file.'\')" alt /></div>'."\n";
         }
         closedir($dh);
     }
@@ -600,5 +576,14 @@ mysqli_close($sql_sy);
 ?>
 </div>
 <div id="messagebox"></div>
+<script type="text/javascript" src="/common.js"></script>
+<?php
+  if(isset($_SESSION["token"])){
+?>
+<script type="text/javascript" src="/jquery.html5uploader.js"></script>
+<script type="text/javascript" src="/index.js"></script>
+<?php
+}
+?>
 </body>
 </html>
