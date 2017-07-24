@@ -176,7 +176,7 @@ $.ctrl('E', function() {
   edit_blog();
 });
 
-$.ctrl('A', function() {
+$.ctrl('À', function() { // backtick
   if($("#blog_content").attr("contenteditable") == "false"){
     add_blog();
   }
