@@ -24,6 +24,13 @@ document.querySelectorAll("#emoticon .icon").forEach(function(icon){
   });
 });
 
+document.querySelector("#search_form") && 
+document.querySelector("#search_form").addEventListener('submit', function(e){
+  e.preventDefault();
+  window.location = '/search/' + encodeURIComponent(document.querySelector('#search').value);
+  return false;
+});
+
 $("#blog_title").attr("contenteditable", "false");
 
 $(document).unbind('keydown');

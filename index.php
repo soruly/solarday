@@ -388,7 +388,7 @@ switch ($uri[1]) {
       $content .= '</div>';
       $content .= '<div id="blog_content">';
       
-      $content .= '<form onsubmit="window.location = \'/search/\' + encodeURIComponent($(\'#search\')[0].value);return false;">';
+      $content .= '<form id="search_form">';
       $content .= '<input type="text" id="search" autofocus />';
       $content .= '<input type="submit" value="搜尋" />';
       $content .= '</form>';
@@ -403,7 +403,7 @@ switch ($uri[1]) {
       $content .= '</div>';
       $content .= '<div id="blog_content">';
 
-      $content .= '<form onsubmit="window.location = \'/search/\' + encodeURIComponent($(\'#search\')[0].value);return false;">';
+      $content .= '<form id="search_form">';
       $content .= '<input type="text" id="search" value="'.urldecode($uri[2]).'" />';
       $content .= '<input type="submit" value="搜尋" />';
       $content .= '</form>';
