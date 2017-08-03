@@ -1,19 +1,40 @@
 function login(pwd){
   if(pwd != null){
-    $.ajax({
-      url: "ajax.php?login",
-      global: false,
-      type: "POST",
-      data: ({password: new jsSHA('solarday_'+pwd, "TEXT").getHash("SHA-1", "HEX")}),
-      dataType: "html",
-      async:false,
-      success: function(){
-        location.reload();
-      }
+    sha256('solarday_'+pwd).then(function(digest){
+      $.ajax({
+        url: "ajax.php?login",
+        global: false,
+        type: "POST",
+        data: {password: digest},
+        dataType: "html",
+        async:false,
+        success: function(){
+          location.reload();
+        }
+      });
     });
   }
 }
 
+function sha256(str) {
+  var buffer = new TextEncoder("utf-8").encode(str);
+  return crypto.subtle.digest("SHA-256", buffer).then(function (hash) {
+    return hex(hash);
+  });
+}
+
+function hex(buffer) {
+  var hexCodes = [];
+  var view = new DataView(buffer);
+  for (var i = 0; i < view.byteLength; i += 4) {
+    var value = view.getUint32(i)
+    var stringValue = value.toString(16)
+    var padding = '00000000'
+    var paddedValue = (padding + stringValue).slice(-padding.length)
+    hexCodes.push(paddedValue);
+  }
+  return hexCodes.join("");
+}
 
 var loginButton = document.createElement('a');
 loginButton.textContent = 'login';
