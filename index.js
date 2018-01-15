@@ -285,6 +285,12 @@ function addemoticon(src){
     image.className = "icon";
     image.src = src;
     range.insertNode(image);
+    var newRange = document.createRange();
+    var newSelection = window.getSelection();
+    newRange.setStartAfter(image);
+    newRange.collapse(true);
+    newSelection.removeAllRanges();
+    newSelection.addRange(newRange);
   }
 }
 
@@ -326,11 +332,21 @@ $(function() {
         range.deleteContents();
 
         if(ext == "jpg" || ext == "png" || ext == "gif"){
+          var br = document.createElement('br');
           var image = document.createElement('img');
           image.setAttribute("onclick","show_photo(this.src);");
           image.className = "photo";
           image.src = '/pic/thumb_big/'+responseText+'.jpg';
+          range.insertNode(br);
           range.insertNode(image);
+
+          var newRange = document.createRange();
+          var newSelection = window.getSelection();
+          newRange.setStartAfter(br);
+          newRange.collapse(true);
+          newSelection.removeAllRanges();
+          newSelection.addRange(newRange);
+
         }
         else if(ext == "mp3"){
           var name = document.createTextNode(responseText.slice(0,-4));
@@ -342,6 +358,14 @@ $(function() {
           range.insertNode(audio);
           range.insertNode(br);
           range.insertNode(name);
+
+          var newRange = document.createRange();
+          var newSelection = window.getSelection();
+          newRange.setStartAfter(image);
+          newRange.collapse(true);
+          newSelection.removeAllRanges();
+          newSelection.addRange(audio);
+
         }
       }
       $("#messagebox").hide();
