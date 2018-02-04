@@ -361,10 +361,10 @@ $(function() {
 
           var newRange = document.createRange();
           var newSelection = window.getSelection();
-          newRange.setStartAfter(image);
+          newRange.setStartAfter(br);
           newRange.collapse(true);
           newSelection.removeAllRanges();
-          newSelection.addRange(audio);
+          newSelection.addRange(newRange);
 
         }
       }
