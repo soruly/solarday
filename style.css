@@ -162,6 +162,7 @@ audio{
 }
 #blog_head{
 	padding-top:1px;
+	background-color:#EEB;
 	background-image:url(image/top.png);
 	height:200px;
 }
@@ -174,6 +175,7 @@ audio{
 	padding-left:100px;
 	padding-right:20px;
 	font-family: Arial, '新細明體', sans-serif;
+	background-color:#EEB;
 	background-image:url(image/middle.png);
     background-position:0 0;
 }
@@ -212,6 +214,7 @@ audio{
 }
 #blog_foot{
 	text-align:right;
+	background-color:#EEB;
 	background-image:url(image/bottom.png);
 	height:33px;
 }
