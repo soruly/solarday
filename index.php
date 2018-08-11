@@ -468,7 +468,7 @@ switch ($uri[1]) {
 <base href="https://<?=$servername?>/" />
 <link href="/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/turbolinks.min.js"></script>
-<script type="text/javascript" src="/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/jquery-3.3.1.min.js"></script>
 <style type="text/css">
 @media screen and (max-width: 820px){
     #container{
