@@ -459,7 +459,7 @@ switch ($uri[1]) {
 }
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 <title>SolarDay</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -467,9 +467,9 @@ switch ($uri[1]) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base href="https://<?=$servername?>/" />
 <link href="/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/turbolinks.min.js"></script>
-<script type="text/javascript" src="/jquery-3.3.1.min.js"></script>
-<style type="text/css">
+<script src="/turbolinks.min.js"></script>
+<script src="/jquery-3.3.1.min.js"></script>
+<style>
 @media screen and (max-width: 820px){
     #container{
         margin-right:auto;
@@ -477,7 +477,7 @@ switch ($uri[1]) {
 }
 @media screen and (max-width: 770px){
     html,body{
-        overflow-y:overlay;
+        overflow-y:auto;
         width:100%;
     }
     #container,#navigationbar_top, #navigationbar_bottom{
@@ -575,12 +575,12 @@ mysqli_close($sql_sy);
 ?>
 </div>
 <div id="messagebox"></div>
-<script type="text/javascript" src="/common.js"></script>
+<script src="/common.js"></script>
 <?php
   if(isset($_SESSION["token"])){
 ?>
-<script type="text/javascript" src="/jquery.html5uploader.js"></script>
-<script type="text/javascript" src="/index.js"></script>
+<script src="/jquery.html5uploader.js"></script>
+<script src="/index.js"></script>
 <?php
 }
 ?>

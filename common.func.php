@@ -112,7 +112,7 @@ function fmt_url($src){
 function fmt_pic($src){
 	list($width, $height, $type, $attr) = getimagesize('pic/thumb_big/'.$src[1].'.jpg', $info);
 	$max_height = $height - $height%25;
-	return '<a href="/photo/'.$src[1].'/" target="_blank"><img class="photo" style="max-height:'.$max_height.'px" data-width="'.$width.'" data-height="'.$height.'" src="/pic/thumb_big/'.$src[1].'.jpg" /></a>';
+	return '<a href="/photo/'.$src[1].'/" target="_blank"><img class="photo" style="max-height:'.$max_height.'px" data-width="'.$width.'" data-height="'.$height.'" src="/pic/thumb_big/'.$src[1].'.jpg" alt="" /></a>';
 }
 
 function fmt_blog($t){
