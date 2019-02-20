@@ -73,11 +73,11 @@ if(isset($_SESSION["token"])){
 		mysqli_free_result($result);
 	}
 	elseif(isset($_GET["delete_blog"])){
-		$id = intval($_POST["id"]);
+		$id = intval($_GET["delete_blog"]);
 		$query = "DELETE FROM `blog` WHERE `id`=$id";
 		$result = mysqli_query($sql_sy, $query);
 		
-		$id = intval($_POST["id"]);
+		$id = intval($_GET["delete_blog"]);
 		$query = "ALTER TABLE `blog` AUTO_INCREMENT = 1;";
 		$result = mysqli_query($sql_sy, $query);
 
@@ -99,9 +99,13 @@ if(isset($_SESSION["token"])){
 		$result = mysqli_query($sql_sy, $query);
 	}
 	elseif(isset($_GET["private_blog"])){
-		$id = intval($_POST["id"]);
-		$private = intval($_POST["private"]);
-		$query = "UPDATE blog SET private=$private WHERE id=$id";
+		$id = intval($_GET["private_blog"]);
+		$query = "UPDATE blog SET private=1 WHERE id=$id";
+		$result = mysqli_query($sql_sy, $query);
+	}
+	elseif(isset($_GET["public_blog"])){
+		$id = intval($_GET["public_blog"]);
+		$query = "UPDATE blog SET private=0 WHERE id=$id";
 		$result = mysqli_query($sql_sy, $query);
 	}
 	elseif(isset($_GET["upload"])){

@@ -467,56 +467,11 @@ switch ($uri[1]) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base href="https://<?=$servername?>/" />
 <link href="/style.css" rel="stylesheet" type="text/css" />
-<script src="/turbolinks.min.js"></script>
-<script src="/jquery-3.3.1.min.js"></script>
-<style>
-@media screen and (max-width: 820px){
-    #container{
-        margin-right:auto;
-    }
-}
-@media screen and (max-width: 770px){
-    html,body{
-        overflow-y:auto;
-        width:100%;
-    }
-    #container,#navigationbar_top, #navigationbar_bottom{
-        margin:0;
-        width:100%;
-    }
-    #banner,#banner2{
-        display:none;
-    }
-    #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
-        display:none;
-    }
-}
-@media screen and (max-width: 530px){
-    #blog_head, #blog_content, #blog_foot{
-        background-position:-80px 0;
-    }
-    #blog_title{
-        font-size:22px;
-        margin-top:130px;
-        height:38px;
-    }
-    #blog_title,#blog_time{
-        margin-left:20px;
-    }
-    #blog_category{
-        display:none;
-    }
-    #blog_content{
-        padding-left:20px;
-    }
-    #blog_content table tr td{
-        vertical-align:initial;
-    }
-    #blog_content table tr td:nth-child(2), #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
-        display:none;
-    }
-}
-</style>
+<script src="/turbolinks.min.js" async defer></script>
+<script src="/common.js" async defer></script>
+<?php if(isset($_SESSION["token"])){ ?>
+<script src="/index.js" async defer></script>
+<?php } ?>
 </head>
 
 <body>
@@ -558,31 +513,27 @@ Password: <input id="pwd" type="password" />
 </form>
 </div>
 
+<div id="messagebox"></div>
+
+<?php if(isset($_SESSION["token"])){ ?>
+
 <div id="emoticon">
 <?php
-$dir = "./image/icon/";
-if (is_dir($dir)) {
-    if ($dh = opendir($dir)) {
-        while (($file = readdir($dh)) !== false) {
-      $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-      if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt /></div>'."\n";
-        }
-        closedir($dh);
-    }
-}
-
-mysqli_close($sql_sy);
+  $dir = "./image/icon/";
+  if (is_dir($dir)) {
+      if ($dh = opendir($dir)) {
+          while (($file = readdir($dh)) !== false) {
+        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        if($ext == "gif") echo '<div class="icon" style="background-image:url('.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt /></div>'."\n";
+          }
+          closedir($dh);
+      }
+  }
+  mysqli_close($sql_sy);
 ?>
 </div>
-<div id="messagebox"></div>
-<script src="/common.js"></script>
-<?php
-  if(isset($_SESSION["token"])){
-?>
-<script src="/jquery.html5uploader.js"></script>
-<script src="/index.js"></script>
-<?php
-}
-?>
+
+<?php } ?>
+
 </body>
 </html>

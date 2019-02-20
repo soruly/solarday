@@ -1,160 +1,147 @@
-function login(pwd){
-  if(pwd != null){
-    sha256('solarday_'+pwd).then(function(digest){
-      $.ajax({
-        url: "ajax.php?login",
-        global: false,
-        type: "POST",
-        data: {password: digest},
-        dataType: "html",
-        async:false,
-        success: function(){
-          location.reload();
-        }
-      });
-    });
-  }
-}
-
-function sha256(str) {
-  var buffer = new TextEncoder("utf-8").encode(str);
-  return crypto.subtle.digest("SHA-256", buffer).then(function (hash) {
-    return hex(hash);
-  });
-}
-
-function hex(buffer) {
-  var hexCodes = [];
-  var view = new DataView(buffer);
-  for (var i = 0; i < view.byteLength; i += 4) {
-    var value = view.getUint32(i)
-    var stringValue = value.toString(16)
-    var padding = '00000000'
-    var paddedValue = (padding + stringValue).slice(-padding.length)
+const hex = (buffer) => {
+  const hexCodes = [];
+  const view = new DataView(buffer);
+  for (let i = 0; i < view.byteLength; i += 4) {
+    const value = view.getUint32(i);
+    const stringValue = value.toString(16);
+    const padding = "00000000";
+    const paddedValue = (padding + stringValue).slice(-padding.length);
     hexCodes.push(paddedValue);
   }
   return hexCodes.join("");
-}
+};
 
-var loginButton = document.createElement('a');
-loginButton.textContent = 'login';
-loginButton.addEventListener('click', function() {
-  $('#login').blindshow();
-  $('#pwd').focus();
+const sha256 = (str) => crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str)).then((hash) => hex(hash));
+const login = async (pwd) => {
+  if (pwd !== null) {
+    const digest = await sha256(`solarday_${document.querySelector("#pwd").value}`);
+    await fetch("ajax.php?login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `password=${digest}`
+    });
+    location.reload();
+  }
+};
+
+const center = (element) => {
+  element.style.position = "absolute";
+  element.style.top = `${((window.innerHeight - element.clientHeight) / 2) + window.scrollY}px`;
+  element.style.left = `${((window.innerWidth - element.clientWidth) / 2) + window.scrollX}px`;
+};
+
+const blindshow = (element) => {
+  document.querySelector("#blind").style.display = "block";
+  element.style.display = "block";
+  center(element);
+  document.querySelector("#blind").addEventListener("click", () => {
+    document.querySelector("#blind").style.display = "none";
+    element.style.display = "none";
+  });
+};
+
+const loginButton = document.createElement("a");
+loginButton.textContent = "login";
+loginButton.addEventListener("click", () => {
+  blindshow(document.querySelector("#login"));
+  document.querySelector("#pwd").focus();
 });
 
-document.querySelector("#blog_foot").innerHTML = '';
+const fmt_time = (strtime, local = false) => {
+  const week = [
+    "日",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六"
+  ];
+  const [
+    datestr,
+    timestr
+  ] = strtime.split(" ");
+  const d = new Date(datestr.split("-")[0], datestr.split("-")[1] - 1, datestr.split("-")[2]);
+  d.setHours(timestr.split(":")[0], timestr.split(":")[1], timestr.split(":")[2]);
+  if (!local) {
+    d.setHours(d.getHours() - (d.getTimezoneOffset() / 60));
+  }
+
+  const date = `${d.getFullYear()}年 ${(d.getMonth() + 1).toString().padStart(2, "0")}月 ${d.getDate().toString().padStart(2, "0")}日`;
+  const day = `星期${week[d.getDay()]}`;
+  const apm = d.getHours() < 12 ? "AM" : "PM";
+  if (d.getHours() >= 12) {
+    d.setHours(d.getHours() - 12);
+  }
+  const time = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
+  return `${date} (${day}) ${apm} ${time}`;
+};
+
+const fmt_shorttime = (strtime) => {
+  if (strtime.split(" ").length === 3) {
+    return strtime;
+  }
+
+  const [
+    datestr,
+    timestr
+  ] = strtime.split(" ");
+  const d = new Date(datestr.split("-")[0], datestr.split("-")[1] - 1, datestr.split("-")[2]);
+  d.setHours(timestr.split(":")[0], timestr.split(":")[1], timestr.split(":")[2]);
+  d.setHours(d.getHours() - (d.getTimezoneOffset() / 60));
+
+  const date = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${(d.getDate().toString().padStart(2, "0"))}`;
+  const apm = d.getHours() < 12 ? "AM" : "PM";
+  if (d.getHours() >= 12) {
+    d.setHours(d.getHours() - 12);
+  }
+  const time = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
+  return `${date} ${apm} ${time}`;
+};
+
+const resize_photo = () => {
+  document.querySelectorAll(".photo").forEach((element) => {
+    let margin = 0;
+    let max_height = 0;
+    if (window.innerWidth < 530) {
+      margin = 40;
+    } else if (window.innerWidth < 760) {
+      margin = 120;
+    }
+    max_height = (window.innerWidth - margin) / element.dataset.width * element.dataset.height;
+    if (max_height > element.dataset.height) {
+      max_height = element.dataset.height;
+    }
+    max_height -= max_height % 25;
+
+    element.style.maxHeight = `${max_height}px`;
+  });
+};
+
+document.querySelector("#blog_foot").innerHTML = "";
 document.querySelector("#blog_foot").appendChild(loginButton);
-document.querySelector("#login>form").addEventListener('submit', function(){
+document.querySelector("#login>form").addEventListener("submit", () => {
   login(document.querySelector("#pwd").value);
   return false;
 });
-
-function zerofill(number) {
-    result = number.toString().length == 1 ? '0' + number.toString() : number.toString();
-    return result;
-}
-
-function fmt_time(strtime,local){
-  local = (local == "undefined") ? false : local;
-  var week = new Array("日","一","二","三","四","五","六");
-  var datestr = strtime.split(" ")[0];
-  var timestr = strtime.split(" ")[1];
-  var d=new Date(datestr.split("-")[0],datestr.split("-")[1]-1,datestr.split("-")[2]);
-  d.setHours(timestr.split(":")[0],timestr.split(":")[1],timestr.split(":")[2]);
-  if(!local) d.setHours(d.getHours()-(d.getTimezoneOffset()/60));
-  
-  var date = d.getFullYear()+"年 "+zerofill(d.getMonth()+1)+"月 "+zerofill(d.getDate())+"日";
-  var day = "星期"+week[d.getDay()];
-  if(d.getHours() < 12) {var apm = "AM"}
-  else{
-    var apm = "PM";
-    d.setHours(d.getHours()-12);
-  }
-  var time = zerofill(d.getHours())+":"+zerofill(d.getMinutes())+":"+zerofill(d.getSeconds());
-  return date+" ("+day+") "+apm+" "+time;
-}
-
-$('.time').each(function(index) {
-    $(this).html(fmt_time($(this).attr("data-time")));
+document.querySelectorAll(".time").forEach((node) => {
+  node.textContent = fmt_time(node.dataset.time);
 });
-
-function fmt_shorttime(strtime){
-  if(strtime.split(" ").length === 3){
-    return strtime;
-  }
-  else{
-  var datestr = strtime.split(" ")[0];
-  var timestr = strtime.split(" ")[1];
-  var d = new Date(datestr.split("-")[0],datestr.split("-")[1]-1,datestr.split("-")[2]);
-  d.setHours(timestr.split(":")[0],timestr.split(":")[1],timestr.split(":")[2]);
-  d.setHours(d.getHours()-(d.getTimezoneOffset()/60));
-  
-  var date = d.getFullYear()+"-"+zerofill(d.getMonth()+1)+"-"+zerofill(d.getDate());
-  if(d.getHours() < 12) {var apm = "AM"}
-  else{
-    var apm = "PM";
-    d.setHours(d.getHours()-12);
-  }
-  var time = zerofill(d.getHours())+":"+zerofill(d.getMinutes())+":"+zerofill(d.getSeconds());
-  return date+" "+apm+" "+time;
-  }
-}
-
-$('.shorttime').each(function(index) {
-    $(this).html(fmt_shorttime($(this).text()));
+document.querySelectorAll(".shorttime").forEach((node) => {
+  node.textContent = fmt_shorttime(node.textContent);
 });
-
-
-jQuery.fn.center = function () {
-    this.css("position","absolute");
-    this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
-    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
-    return this;
-}
-
-jQuery.fn.blindshow = function () {
-  $(this).center();
-  $("#blind").center();
-  $("#blind").show();
-  var obj = $(this);
-  obj.show();
-  $("#blind").click(function(){
-    obj.hide();
-    $("#blind").hide();
-    $("#blind").unbind("click");
-  });
-    return this;
-}
-
-resize_photo = function(){
-    $(".photo").each(function(index,element){
-        var max_height,margin;
-        if(window.innerWidth < 530){
-            margin = 40;
-        }
-        else if(window.innerWidth < 760){
-            margin = 120;
-        }
-        max_height = (window.innerWidth - margin) / $(this).attr("data-width") * $(this).attr("data-height");
-        if(max_height > $(this).attr("data-height"))
-            max_height = $(this).attr("data-height");
-        max_height = max_height - max_height%25;
-        
-        $(this).css("max-height",max_height+"px");
-    });
-};
 window.onresize = resize_photo;
 resize_photo();
 
-/*
-document.body.onkeyup = function(e){
-  e.preventDefault();
-  if(e.key === "ArrowLeft"){
-    document.querySelector("#navigationbar_top").querySelectorAll("a")[0].click();
-  }
-  if(e.key === "ArrowRight"){
-    document.querySelector("#navigationbar_top").querySelectorAll("a")[7].click();
-  }
-};
-*/
+document.addEventListener("turbolinks:load", () => {
+  document.querySelectorAll(".time").forEach((node) => {
+    node.textContent = fmt_time(node.dataset.time);
+  });
+  document.querySelectorAll(".shorttime").forEach((node) => {
+    node.textContent = fmt_shorttime(node.textContent);
+  });
+  resize_photo();
+});
+
