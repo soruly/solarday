@@ -1,48 +1,4 @@
-﻿@media screen and (max-width: 820px){
-    #container{
-        margin-right:auto;
-    }
-}
-@media screen and (max-width: 770px){
-    html,body{
-        overflow-y:auto;
-        width:100%;
-    }
-    #container,#navigationbar_top, #navigationbar_bottom{
-        margin:0;
-        width:100%;
-    }
-    #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
-        display:none;
-    }
-}
-@media screen and (max-width: 530px){
-    #blog_head, #blog_content, #blog_foot{
-        background-position:-80px 0;
-    }
-    #blog_title{
-        font-size:22px;
-        margin-top:130px;
-        height:38px;
-    }
-    #blog_title,#blog_time{
-        margin-left:20px;
-    }
-    #blog_category{
-        display:none;
-    }
-    #blog_content{
-        padding-left:20px;
-    }
-    #blog_content table tr td{
-        vertical-align:initial;
-    }
-    #blog_content table tr td:nth-child(2), #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
-        display:none;
-    }
-}
-
-body{
+﻿body{
 	border:none;
 	font-family: Arial;
 	font-size:12px;
@@ -145,7 +101,6 @@ audio{
 	background-color:#EEB;
 	background-image:url(image/bg.png);
 	opacity:.6;
-	transition: opacity 200ms;
 	box-shadow: 0px 0px 10px 2px #000;
 	margin:auto;
 	margin-bottom:0px;
@@ -340,4 +295,48 @@ font{
 }
 #foot a{
 		color:#FFF;
+}
+
+@media screen and (max-width: 820px){
+    #container{
+        margin-right:auto;
+    }
+}
+@media screen and (max-width: 770px){
+    html,body{
+        overflow-y:auto;
+        width:100%;
+    }
+    #container,#navigationbar_top, #navigationbar_bottom{
+        margin:0;
+        width:100%;
+    }
+    #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
+        display:none;
+    }
+}
+@media screen and (max-width: 530px){
+    #blog_head, #blog_content, #blog_foot{
+        background-position:-80px 0;
+    }
+    #blog_title{
+        font-size:22px;
+        margin-top:130px;
+        height:38px;
+    }
+    #blog_title,#blog_time{
+        margin-left:20px;
+    }
+    #blog_category{
+        display:none;
+    }
+    #blog_content{
+        padding-left:20px;
+    }
+    #blog_content table tr td{
+        vertical-align:initial;
+    }
+    #blog_content table tr td:nth-child(2), #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
+        display:none;
+    }
 }
