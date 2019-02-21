@@ -12,9 +12,6 @@
         margin:0;
         width:100%;
     }
-    #banner,#banner2{
-        display:none;
-    }
     #blog_content table tr td:nth-child(3), #blog_content table tr td:nth-child(4){
         display:none;
     }
@@ -139,33 +136,6 @@ audio{
 	height:68px;
 	margin:0px;
 	padding:0px;
-}
-#banner{
-	background-image:url(image/solarday.png);
-	background-position:top center;
-	background-repeat:no-repeat;
-	height:65px;
-	width:260px;
-	position:fixed;
-	right:65%;
-	top:3%;
-	opacity:.6;
-	transition: opacity 200ms;
-}
-#banner2{
-	background-image:url(image/blog.png);
-	background-position:top center;
-	background-repeat:no-repeat;
-	height:40px;
-	width:172px;
-	position:fixed;
-	right:70%;
-	top:12%;
-	opacity:.6;
-	transition: opacity 200ms;
-}
-#banner:hover, #banner2:hover{
-	opacity:1;
 }
 #navigationbar_top, #navigationbar_bottom{
 	font-family:'微軟正黑體', Arial, '新細明體', sans-serif;

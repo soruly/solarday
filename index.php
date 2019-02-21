@@ -475,8 +475,6 @@ switch ($uri[1]) {
 </head>
 
 <body>
-<div id="banner2"></div>
-<div id="banner"></div>
 <div id="container">
 <div id="navigationbar_top">
 <?php if(isset($prev_blog)) echo '<a href="/blog/'.$prev_blog.'/">&lt;&lt;</a> - '; elseif(isset($next_blog)) echo '&lt;&lt; - '; ?>
