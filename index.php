@@ -465,7 +465,6 @@ switch ($uri[1]) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<base href="https://<?=$servername?>/" />
 <link href="/style.css" rel="stylesheet" type="text/css" />
 <script src="/turbolinks.min.js" async defer></script>
 <script src="/common.js" async defer></script>

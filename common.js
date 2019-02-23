@@ -121,7 +121,7 @@ const resize_photo = () => {
 };
 
 window.onload = () => {
-  document.body.style.backgroundImage = "url(image/banner.jpg)";
+  document.body.style.backgroundImage = "url(/image/banner.jpg)";
 };
 document.querySelector("#blog_foot").innerHTML = "";
 document.querySelector("#blog_foot").appendChild(loginButton);
@@ -146,6 +146,6 @@ document.addEventListener("turbolinks:load", () => {
     node.textContent = fmt_shorttime(node.textContent);
   });
   resize_photo();
-  document.body.style.backgroundImage = "url(image/banner.jpg)";
+  document.body.style.backgroundImage = "url(/image/banner.jpg)";
 });
 
