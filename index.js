@@ -1,5 +1,5 @@
 const logout = async () => {
-  await fetch("ajax.php?logout");
+  await fetch("/ajax.php?logout");
   location.reload();
 };
 
@@ -51,7 +51,7 @@ const utc_time = (strtime) => {
 
 const add_blog = async () => {
   const d = new Date();
-  const msg = await fetch(`ajax.php?add_blog&timezone=${d.getTimezoneOffset() / 60}`).then((e) => e.text());
+  const msg = await fetch(`/ajax.php?add_blog&timezone=${d.getTimezoneOffset() / 60}`).then((e) => e.text());
   if (isNaN(parseInt(msg, 10))) {
     alert(msg); // eslint-disable-line no-alert
     return;
@@ -61,7 +61,7 @@ const add_blog = async () => {
 
 const delete_blog = async () => {
   if (confirm("Delete this blog?")) { // eslint-disable-line no-alert
-    const msg = await fetch(`ajax.php?delete_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
+    const msg = await fetch(`/ajax.php?delete_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
     if (isNaN(parseInt(msg, 10))) {
       alert(msg); // eslint-disable-line no-alert
       return;
@@ -115,7 +115,7 @@ const edit_blog = () => {
 if (document.querySelector("#blog_private")) {
   document.querySelector("#blog_private").onclick = async () => {
     const action = document.querySelector("#blog_private").innerText === "private" ? "public" : "private";
-    const msg = await fetch(`ajax.php?${action}_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
+    const msg = await fetch(`/ajax.php?${action}_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
     if (msg !== "") {
       alert(msg); // eslint-disable-line no-alert
       return;
@@ -167,7 +167,7 @@ const save = async () => {
   params.append("time", datetime);
   params.append("title", html_2_bbcode(document.querySelector("#blog_title").innerText));
   params.append("blog", html_2_bbcode(document.querySelector("#blog_content").innerHTML));
-  const msg = await fetch("ajax.php?edit_blog", {
+  const msg = await fetch("/ajax.php?edit_blog", {
     method: "POST",
     body: params
   }).then((e) => e.text());
