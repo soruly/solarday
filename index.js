@@ -291,7 +291,7 @@ const fileHandler = (file) => {
     document.querySelector("#messagebox").style.display = "none";
     document.querySelector("#blind").style.display = "none";
   };
-  xmlHttpRequest.open("POST", "ajax.php?upload", true);
+  xmlHttpRequest.open("POST", "/ajax.php?upload", true);
   const formData = new FormData();
   formData.append("file", file);
   xmlHttpRequest.send(formData);
