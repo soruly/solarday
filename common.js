@@ -15,7 +15,7 @@ const sha256 = (str) => crypto.subtle.digest("SHA-256", new TextEncoder("utf-8")
 const login = async (pwd) => {
   if (pwd !== null) {
     const digest = await sha256(`solarday_${document.querySelector("#pwd").value}`);
-    await fetch("ajax.php?login", {
+    await fetch("/ajax.php?login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
