@@ -1,4 +1,7 @@
-﻿body{
+﻿html {
+  -webkit-text-size-adjust: 100%;
+}
+body{
 	border:none;
 	font-family: Arial;
 	font-size:12px;
