@@ -461,7 +461,6 @@ switch ($uri[1]) {
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
 <title>SolarDay</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="icon" type="image/png" href="/favicon.png">
@@ -472,9 +471,7 @@ switch ($uri[1]) {
 <?php if(isset($_SESSION["token"])){ ?>
 <script src="/index.js" async defer></script>
 <?php } ?>
-</head>
 
-<body>
 <div id="container">
 <div id="navigationbar_top">
 <?php if(isset($prev_blog)) echo '<a href="/blog/'.$prev_blog.'/">&lt;&lt;</a> - '; elseif(isset($next_blog)) echo '&lt;&lt; - '; ?>
@@ -532,6 +529,4 @@ Password: <input id="pwd" type="password" />
 </div>
 
 <?php } ?>
-
-</body>
 </html>
