@@ -1,16 +1,4 @@
-const hex = (buffer) => {
-  const hexCodes = [];
-  const view = new DataView(buffer);
-  for (let i = 0; i < view.byteLength; i += 4) {
-    const value = view.getUint32(i);
-    const stringValue = value.toString(16);
-    const padding = "00000000";
-    const paddedValue = (padding + stringValue).slice(-padding.length);
-    hexCodes.push(paddedValue);
-  }
-  return hexCodes.join("");
-};
-
+const hex = (buffer) => [...new Uint8Array(buffer)].map(value => value.toString(16).padStart(2, "0")).join("");
 const sha256 = (str) => crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str)).then((hash) => hex(hash));
 const login = async (pwd) => {
   if (pwd !== null) {
