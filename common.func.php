@@ -112,7 +112,7 @@ function fmt_url($src){
 function fmt_pic($src){
 	list($width, $height, $type, $attr) = getimagesize('pic/thumb_big/'.$src[1].'.jpg', $info);
 	$max_height = $height - $height%25;
-	return '<a href="/photo/'.$src[1].'/" target="_blank"><img class="photo" style="max-height:'.$max_height.'px" data-width="'.$width.'" data-height="'.$height.'" src="/pic/thumb_big/'.$src[1].'.jpg" alt="" /></a>';
+	return '<a href="/photo/'.$src[1].'/" target="_blank"><img class="photo" loading="lazy" style="max-height:'.$max_height.'px" data-width="'.$width.'" data-height="'.$height.'" src="/pic/thumb_big/'.$src[1].'.jpg" alt="" /></a>';
 }
 
 function fmt_blog($t){
@@ -120,7 +120,7 @@ function fmt_blog($t){
 	$text = preg_replace_callback('/\[pic]([^[]*)\[\/pic]/', 'fmt_pic', $text);
 	$text = str_replace('[music]', '[music]/music/', $text);
 	$text = preg_replace_callback('/\[music]([^[]*)\[\/music]/', 'fmt_music', $text);
-	$text = str_replace('[icon]', '<img class="icon" src="/image/icon/', $text);
+	$text = str_replace('[icon]', '<img class="icon" loading="lazy" src="/image/icon/', $text);
 	$text = str_replace('[/icon]', '.gif">', $text);
 	$text = preg_replace_callback('/\[url]([^[]*)\[\/url]/', 'fmt_url', $text);
 	$text = str_replace('[quote]', '<cite>', $text);

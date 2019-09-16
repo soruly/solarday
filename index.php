@@ -303,7 +303,7 @@ switch ($uri[1]) {
       }
       asort($albums);
       foreach ($albums as $album) {
-          $content .= '<div class="thumb"><a href="/album/'.$album.'/"><img src="/pic/album/'.$album.'.jpg" /></a><div>'.$album.'</div></div>';
+          $content .= '<div class="thumb"><a href="/album/'.$album.'/"><img src="/pic/album/'.$album.'.jpg" loading="lazy" /></a><div>'.$album.'</div></div>';
       }
       
       $content .= '<div style="clear: both"></div>';
@@ -329,7 +329,7 @@ switch ($uri[1]) {
 
       preg_match_all('/\[pic](?P<id>\d+)\[\/pic]/', $text, $matches);
       foreach($matches[1] as &$value) {
-        $content .= '<div class="thumb"><a href="/photo/'.$value.'/" target="_blank"><img src="/pic/thumb_small/'.$value.'.jpg" /></a></div>';
+        $content .= '<div class="thumb"><a href="/photo/'.$value.'/" target="_blank"><img src="/pic/thumb_small/'.$value.'.jpg" loading="lazy" /></a></div>';
       }
       
       if(sizeof($matches[1]) == 0) $content .= '沒有公開的相片';
@@ -519,7 +519,7 @@ Password: <input id="pwd" type="password" />
       if ($dh = opendir($dir)) {
           while (($file = readdir($dh)) !== false) {
         $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-        if($ext == "gif") echo '<div class="icon" style="background-image:url(/'.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt /></div>'."\n";
+        if($ext == "gif") echo '<div class="icon" style="background-image:url(/'.$dir.$file.');"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt loading="lazy" /></div>'."\n";
           }
           closedir($dh);
       }
