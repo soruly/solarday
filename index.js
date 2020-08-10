@@ -21,38 +21,41 @@ if (document.querySelector("#search_form")) {
 document.querySelector("#blog_title").contentEditable = false;
 
 const raw_time = (strtime) => {
-  const apm = strtime.replace(/.*(AM|PM).*/ig, "$1");
+  const apm = strtime.replace(/.*(AM|PM).*/gi, "$1");
   let timestr = "";
   if (apm === "PM") {
-    const hour = parseInt(strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/ig, "$4"), 10) + 12;
-    timestr = strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/ig, "$1-$2-$3 ");
+    const hour = Number(strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/gi, "$4")) + 12;
+    timestr = strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/gi, "$1-$2-$3 ");
     timestr += hour.toString();
-    timestr += strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/ig, ":$5:$6");
+    timestr += strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/gi, ":$5:$6");
   } else {
-    timestr = strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/ig, "$1-$2-$3 $4:$5:$6");
+    timestr = strtime.replace(/(\d+)..(\d+)..(\d+).{11}(\d+):(\d+):(\d+)/gi, "$1-$2-$3 $4:$5:$6");
   }
   return timestr;
 };
 
 const utc_time = (strtime) => {
-  const [
-    datestr,
-    timestr
-  ] = strtime.split(" ");
+  const [datestr, timestr] = strtime.split(" ");
   const d = new Date(datestr.split("-")[0], datestr.split("-")[1] - 1, datestr.split("-")[2]);
   d.setHours(timestr.split(":")[0], timestr.split(":")[1], timestr.split(":")[2]);
-  d.setHours(d.getHours() + (d.getTimezoneOffset() / 60));
+  d.setHours(d.getHours() + d.getTimezoneOffset() / 60);
 
-  const date = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
-  const time = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
+  const date = `${d.getFullYear()}-${(d.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+  const time = `${d.getHours().toString().padStart(2, "0")}:${d
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
   return `${date} ${time}`;
 };
 
-
 const add_blog = async () => {
   const d = new Date();
-  const msg = await fetch(`/ajax.php?add_blog&timezone=${d.getTimezoneOffset() / 60}`).then((e) => e.text());
-  if (isNaN(parseInt(msg, 10))) {
+  const msg = await fetch(`/ajax.php?add_blog&timezone=${d.getTimezoneOffset() / 60}`).then((e) =>
+    e.text()
+  );
+  if (isNaN(Number(msg))) {
     alert(msg); // eslint-disable-line no-alert
     return;
   }
@@ -60,9 +63,12 @@ const add_blog = async () => {
 };
 
 const delete_blog = async () => {
-  if (confirm("Delete this blog?")) { // eslint-disable-line no-alert
-    const msg = await fetch(`/ajax.php?delete_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
-    if (isNaN(parseInt(msg, 10))) {
+  if (confirm("Delete this blog?")) {
+    // eslint-disable-line no-alert
+    const msg = await fetch(
+      `/ajax.php?delete_blog=${document.querySelector("#blog_id").innerText}`
+    ).then((e) => e.text());
+    if (isNaN(Number(msg))) {
       alert(msg); // eslint-disable-line no-alert
       return;
     }
@@ -70,13 +76,7 @@ const delete_blog = async () => {
   }
 };
 
-const category_list = [
-  "",
-  "Life",
-  "Development",
-  "Playback",
-  "Article"
-];
+const category_list = ["", "Life", "Development", "Playback", "Article"];
 window.category_id = 0;
 
 const edit_blog = () => {
@@ -91,20 +91,33 @@ const edit_blog = () => {
     document.querySelector("#blog_time").contentEditable = false;
     document.querySelector("#blog_content").contentEditable = false;
     document.querySelector("#blog_category").onclick = null;
-    document.querySelector("#blog_time").innerText = fmt_time(document.querySelector("#blog_time").dataset.time);
+    document.querySelector("#blog_time").innerText = fmt_time(
+      document.querySelector("#blog_time").dataset.time
+    );
     document.querySelector("#blog_time").onclick = null;
   } else {
     document.querySelector("#blog_title").contentEditable = true;
     document.querySelector("#blog_content").contentEditable = true;
     document.querySelector("#blog_category").onclick = () => {
-      window.category_id = window.category_id >= category_list.length - 1 ? 1 : ++window.category_id;
+      window.category_id =
+        window.category_id >= category_list.length - 1 ? 1 : ++window.category_id;
       document.querySelector("#blog_category").innerText = category_list[window.category_id];
     };
-    document.querySelector("#blog_time").innerText = raw_time(document.querySelector("#blog_time").innerText);
+    document.querySelector("#blog_time").innerText = raw_time(
+      document.querySelector("#blog_time").innerText
+    );
     document.querySelector("#blog_time").onclick = () => {
       const d = new Date();
-      const date = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
-      const time = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
+      const date = `${d.getFullYear()}-${(d.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+      const time = `${d
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${d
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
       document.querySelector("#blog_time").dataset.time = `${date} ${time}`;
       document.querySelector("#blog_time").innerText = `${date} ${time}`;
     };
@@ -114,8 +127,11 @@ const edit_blog = () => {
 
 if (document.querySelector("#blog_private")) {
   document.querySelector("#blog_private").onclick = async () => {
-    const action = document.querySelector("#blog_private").innerText === "private" ? "public" : "private";
-    const msg = await fetch(`/ajax.php?${action}_blog=${document.querySelector("#blog_id").innerText}`).then((e) => e.text());
+    const action =
+      document.querySelector("#blog_private").innerText === "private" ? "public" : "private";
+    const msg = await fetch(
+      `/ajax.php?${action}_blog=${document.querySelector("#blog_id").innerText}`
+    ).then((e) => e.text());
     if (msg !== "") {
       alert(msg); // eslint-disable-line no-alert
       return;
@@ -126,26 +142,26 @@ if (document.querySelector("#blog_private")) {
 
 const html_2_bbcode = (html) => {
   let str = html;
-  str = str.replace(/(\r\n|\n|\r)/igm, "");
-  str = str.replace(/<div><br><\/div>/igm, "<div></div>");
-  str = str.replace(/(.)<div>/igm, "$1<br>");
-  str = str.replace(/<div class="right">([^<]*)<\/div>/igm, "[right]$1[/right]");
-  str = str.replace(/<div class="center">([^<]*)<\/div>/igm, "[center]$1[/center]");
-  str = str.replace(/<div(.*?)>/igm, "");
-  str = str.replace(/<\/div>/igm, "");
-  str = str.replace(/<br.?\/?>/igm, "\r\n");
-  str = str.replace(/<cite>([^<]*)<\/cite>/igm, "[quote]$1[/quote]");
-  str = str.replace(/<code>([^<]*)<\/code>/igm, "[code]$1[/code]");
-  str = str.replace(/<b>([^<]*)<\/b>/igm, "[b]$1[/b]");
-  str = str.replace(/<i>([^<]*)<\/i>/igm, "[i]$1[/i]");
-  str = str.replace(/<u>([^<]*)<\/u>/igm, "[u]$1[/u]");
-  str = str.replace(/<s>([^<]*)<\/s>/igm, "[s]$1[/s]");
-  str = str.replace(/<a href="([^"]*)" target="_blank">[^<]*<\/a>/igm, "[url]$1[/url]");
-  str = str.replace(/<span class="highlight">([^<]*)<\/span>/igm, "[hl]$1[/hl]");
-  str = str.replace(/<img class="icon"[^<]*\/([^<]*).gif">/igm, "[icon]$1[/icon]");
-  str = str.replace(/<img[^>]*\/(\d+).jpg".*?>/igm, "[pic]$1[/pic]");
-  str = str.replace(/<audio.*src="\/[^"]*\/([^"]*)".*<\/audio>/igm, "[music]$1[/music]");
-  str = str.replace(/<[^<]+?>/igm, "");
+  str = str.replace(/(\r\n|\n|\r)/gim, "");
+  str = str.replace(/<div><br><\/div>/gim, "<div></div>");
+  str = str.replace(/(.)<div>/gim, "$1<br>");
+  str = str.replace(/<div class="right">([^<]*)<\/div>/gim, "[right]$1[/right]");
+  str = str.replace(/<div class="center">([^<]*)<\/div>/gim, "[center]$1[/center]");
+  str = str.replace(/<div(.*?)>/gim, "");
+  str = str.replace(/<\/div>/gim, "");
+  str = str.replace(/<br.?\/?>/gim, "\r\n");
+  str = str.replace(/<cite>([^<]*)<\/cite>/gim, "[quote]$1[/quote]");
+  str = str.replace(/<code>([^<]*)<\/code>/gim, "[code]$1[/code]");
+  str = str.replace(/<b>([^<]*)<\/b>/gim, "[b]$1[/b]");
+  str = str.replace(/<i>([^<]*)<\/i>/gim, "[i]$1[/i]");
+  str = str.replace(/<u>([^<]*)<\/u>/gim, "[u]$1[/u]");
+  str = str.replace(/<s>([^<]*)<\/s>/gim, "[s]$1[/s]");
+  str = str.replace(/<a href="([^"]*)" target="_blank">[^<]*<\/a>/gim, "[url]$1[/url]");
+  str = str.replace(/<span class="highlight">([^<]*)<\/span>/gim, "[hl]$1[/hl]");
+  str = str.replace(/<img class="icon"[^<]*\/([^<]*).gif">/gim, "[icon]$1[/icon]");
+  str = str.replace(/<img[^>]*\/(\d+).jpg".*?>/gim, "[pic]$1[/pic]");
+  str = str.replace(/<audio.*src="\/[^"]*\/([^"]*)".*<\/audio>/gim, "[music]$1[/music]");
+  str = str.replace(/<[^<]+?>/gim, "");
   return str;
 };
 
@@ -169,7 +185,7 @@ const save = async () => {
   params.append("blog", html_2_bbcode(document.querySelector("#blog_content").innerHTML));
   const msg = await fetch("/ajax.php?edit_blog", {
     method: "POST",
-    body: params
+    body: params,
   }).then((e) => e.text());
   if (msg === "") {
     document.title = "SolarDay";
@@ -218,7 +234,7 @@ document.querySelectorAll("#emoticon .icon").forEach((icon) => {
 });
 
 const filesize = (bytes) => {
-  let size = parseInt(bytes, 10);
+  let size = Number(bytes);
   if (bytes > 1000000) {
     size = `${parseFloat(size / 1024 / 1024).toFixed(2)}MB`;
   } else if (bytes > 1000) {
@@ -229,22 +245,33 @@ const filesize = (bytes) => {
   return size;
 };
 
-
 const fileHandler = (file) => {
   blindshow(document.querySelector("#messagebox"));
-  const xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.upload.onloadstart = function (e) {
-    const percent = parseInt(parseInt(e.loaded, 10) / parseInt(e.total, 10) * 100, 10);
-    document.querySelector("#messagebox").innerHTML = `Uploading......<br>${file.name}<br><br>${filesize(e.loaded)}/${filesize(e.total)}<br><div style="text-align:right;border-top:1px solid #000;width:${percent * 3}px">${percent}%</div>`;
+  const xhr = new XMLHttpRequest();
+  xhr.upload.onloadstart = function (e) {
+    const percent = Math.round((Number(e.loaded) / Number(e.total)) * 100);
+    document.querySelector("#messagebox").innerHTML = `Uploading......<br>${
+      file.name
+    }<br><br>${filesize(e.loaded)}/${filesize(
+      e.total
+    )}<br><div style="text-align:right;border-top:1px solid #000;width:${
+      percent * 3
+    }px">${percent}%</div>`;
   };
-  xmlHttpRequest.upload.onprogress = function (e) {
+  xhr.upload.onprogress = function (e) {
     if (e.lengthComputable) {
-      const percent = parseInt(parseInt(e.loaded, 10) / parseInt(e.total, 10) * 100, 10);
-      document.querySelector("#messagebox").innerHTML = `Uploading......<br>${file.name}<br><br>${filesize(e.loaded)}/${filesize(e.total)}<br><div style="text-align:right;border-top:1px solid #000;width:${percent * 3}px">${percent}%</div>`;
+      const percent = Math.round((Number(e.loaded) / Number(e.total)) * 100);
+      document.querySelector("#messagebox").innerHTML = `Uploading......<br>${
+        file.name
+      }<br><br>${filesize(e.loaded)}/${filesize(
+        e.total
+      )}<br><div style="text-align:right;border-top:1px solid #000;width:${
+        percent * 3
+      }px">${percent}%</div>`;
     }
   };
-  xmlHttpRequest.onload = function (e) {
-    let ext = (/[.]/).exec(file.name) ? (/[^.]+$/).exec(file.name) : undefined;
+  xhr.onload = function (e) {
+    let ext = /[.]/.exec(file.name) ? /[^.]+$/.exec(file.name) : undefined;
     ext = ext.toString().toLowerCase();
 
     let range = null;
@@ -291,10 +318,10 @@ const fileHandler = (file) => {
     document.querySelector("#messagebox").style.display = "none";
     document.querySelector("#blind").style.display = "none";
   };
-  xmlHttpRequest.open("POST", "/ajax.php?upload", true);
+  xhr.open("POST", "/ajax.php?upload", true);
   const formData = new FormData();
   formData.append("file", file);
-  xmlHttpRequest.send(formData);
+  xhr.send(formData);
 };
 
 document.querySelector("#blog_content").ondragover = (ev) => {
@@ -330,7 +357,8 @@ ctrl("E", async () => {
   await edit_blog();
 });
 
-ctrl("À", async () => { // backtick
+ctrl("À", async () => {
+  // backtick
   if (document.querySelector("#blog_content").contentEditable !== "true") {
     await add_blog();
   }
@@ -345,4 +373,3 @@ ctrl("Q", () => {
     blindshow(document.querySelector("#emoticon"));
   }
 });
-
