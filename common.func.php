@@ -67,12 +67,10 @@ function word_count($str){
 	$str = str_replace("&nbsp;",'',$str);
 	$patterns = array('hl','b','i','u','s','code','quote','right','center','url');
 	foreach ($patterns as &$patterns) {
-		$str = preg_replace('/\['.$patterns.']/', '', $str);
-		$str = preg_replace('/\[\/'.$patterns.']/', '', $str);
+		$str = str_replace('['.$patterns.']','',$str);
+		$str = str_replace('[/'.$patterns.']','',$str);
 	}
-	$str = preg_replace('/\[icon]([^[]*)\[\/icon]/', '', $str);
-	$str = preg_replace('/\[pic]([^[]*)\[\/pic]/', '', $str);
-	$str = preg_replace('/\[music]([^[]*)\[\/music]/', '', $str);
+	$str = preg_replace('/\[(icon|pic|music)]([^[]*)\[\/(icon|pic|music)]/', '', $str);
 
 	$sum = round((strlen($str) - mb_strlen($str, "utf-8"))/2) + str_word_count($str, 0);
 	return $sum;
