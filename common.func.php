@@ -7,7 +7,7 @@ function html_2_text($html){
 	return $str;
 }
 
-function match($text, $str){
+function search_str($text, $str){
 	$regex_esc = array('[', '^', '$', '.', '|', '?', '*', '+', '(', ')');
 	$before = 30;
 	$after = 40;

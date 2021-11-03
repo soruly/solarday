@@ -3,7 +3,7 @@ require_once("./config.inc.php");
 require_once("./common.func.php");
 
 $sql_sy = mysqli_connect($hostname_sy, $username_sy, base64_decode($password_sy), $database_sy);
-if (mysqli_connect_errno($sql_sy)) {
+if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 else{
@@ -427,7 +427,7 @@ switch ($uri[1]) {
           $res .= '<a href="/blog/'.$row["id"].'/" style="font-size:16px;">'.$row["title"]."</a><br />\n";
           $res .= '<font style="color:#093;font-size:12px;">blog.soruly.com/blog/'.$row["id"]."/</font>";
           $res .= ' - <font style="color:#666;font-size:12px;" class="time" data-time="'.$row["time"].'">'."</font><br />\n";
-          $res .= '<font style="font-size:12px;">...'.match($row["blog"], $search_str)."...</font><br><br>"."\n";
+          $res .= '<font style="font-size:12px;">...'.search_str($row["blog"], $search_str)."...</font><br><br>"."\n";
           $res .=  '</div>'."\n";
         }
         $content .= "總共".mysqli_num_rows($result)."項搜尋結果<br /><br />";
