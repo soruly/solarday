@@ -16,7 +16,7 @@ require_once("./config.inc.php");
 require_once("./common.func.php");
 
 $sql_sy = mysqli_connect($hostname_sy, $username_sy, base64_decode($password_sy), $database_sy);
-if (mysqli_connect_errno($sql_sy)) {
+if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 else{
