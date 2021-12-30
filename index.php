@@ -53,12 +53,12 @@ switch ($uri[1]) {
     if(isset($_SESSION["token"]) && $row["private"]){
       $content .= '<div id="blog_private">private</div>';
     }
-    elseif(isset($_SESSION["token"])){
+    elseif(isset($_SESSION["token"]) && isset($_COOKIE["password"])){
       $content .= '<div id="blog_private">public</div>';
     }
     $content .= '</div>';
     if($row["private"]){
-      if(isset($_SESSION["token"])){
+      if(isset($_SESSION["token"]) && isset($_COOKIE["password"])){
         $content .= '<div id="blog_content">'.fmt_blog($row["blog"])."</div>";
       }
       $content .= '<div id="blog_content">私人日記</div>';
@@ -95,12 +95,12 @@ switch ($uri[1]) {
         if(isset($_SESSION["token"]) && $row["private"]){
           $content .= '<div id="blog_private">private</div>';
         }
-        elseif(isset($_SESSION["token"])){
+        elseif(isset($_SESSION["token"]) && isset($_COOKIE["password"])){
           $content .= '<div id="blog_private">public</div>';
         }
         $content .= '</div>';
         if($row["private"]){
-          if(isset($_SESSION["token"])){
+          if(isset($_SESSION["token"]) && isset($_COOKIE["password"])){
               $content .= '<div id="blog_content">'.fmt_blog($row["blog"])."</div>";
           }
           else{
@@ -414,7 +414,7 @@ switch ($uri[1]) {
       $k = str_replace('%', '\%', $k);
       $k = str_replace('_', '\_', $k);
 
-      if(isset($_SESSION["token"])){
+      if(isset($_SESSION["token"]) && isset($_COOKIE["password"])){
         $query = "SELECT * FROM blog WHERE blog LIKE '%$k%' ORDER BY time DESC";
       }
       $result = mysqli_query($sql_sy, $query);
@@ -468,7 +468,7 @@ switch ($uri[1]) {
 <link href="/style.css" rel="stylesheet" type="text/css" />
 <script src="/turbolinks.min.js" async defer></script>
 <script src="/common.js" async defer></script>
-<?php if(isset($_SESSION["token"])){ ?>
+<?php if(isset($_SESSION["token"]) && isset($_COOKIE["password"])){ ?>
 <script src="/index.js" async defer></script>
 <?php } ?>
 
@@ -510,7 +510,7 @@ Password: <input id="pwd" type="password" />
 
 <div id="messagebox"></div>
 
-<?php if(isset($_SESSION["token"])){ ?>
+<?php if(isset($_SESSION["token"]) && isset($_COOKIE["password"])){ ?>
 
 <div id="emoticon">
 <?php
