@@ -142,10 +142,10 @@ if(isset($_SESSION["token"])){
 					mysqli_free_result($result);
 				}
 				elseif($ext == "mp3"){
-					$dir = "./music/";
+					$dir = "./mp3/";
 					if(!is_dir($dir)) mkdir($dir);
 
-					$music = "./music/".$filename;
+					$music = "./mp3/".$filename;
 					//$music=iconv("UTF-8","big5",$music);
 					copy($_FILES["file"]["tmp_name"], $music);
 

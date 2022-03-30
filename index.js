@@ -40,9 +40,10 @@ const utc_time = (strtime) => {
   d.setHours(timestr.split(":")[0], timestr.split(":")[1], timestr.split(":")[2]);
   d.setHours(d.getHours() + d.getTimezoneOffset() / 60);
 
-  const date = `${d.getFullYear()}-${(d.getMonth() + 1)
+  const date = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
+    .getDate()
     .toString()
-    .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+    .padStart(2, "0")}`;
   const time = `${d.getHours().toString().padStart(2, "0")}:${d
     .getMinutes()
     .toString()
@@ -108,13 +109,11 @@ const edit_blog = () => {
     );
     document.querySelector("#blog_time").onclick = () => {
       const d = new Date();
-      const date = `${d.getFullYear()}-${(d.getMonth() + 1)
+      const date = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
+        .getDate()
         .toString()
-        .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
-      const time = `${d
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${d
+        .padStart(2, "0")}`;
+      const time = `${d.getHours().toString().padStart(2, "0")}:${d
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${d.getSeconds().toString().padStart(2, "0")}`;
@@ -302,7 +301,7 @@ const fileHandler = (file) => {
         const audio = document.createElement("audio");
         audio.setAttribute("controls", "controls");
         audio.setAttribute("type", "audio/mp3");
-        audio.src = `/music/${this.responseText}`;
+        audio.src = `/mp3/${this.responseText}`;
         range.insertNode(audio);
         range.insertNode(br);
         range.insertNode(name);
