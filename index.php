@@ -381,6 +381,79 @@ switch ($uri[1]) {
       }
 
   break;
+  case "music":
+    if ($uri[2] == "") {
+      $query = "SELECT * FROM blog_archive ORDER BY id ASC";
+      $result = mysqli_query($sql_sy, $query);
+      $content .= '<div id="blog_head">';
+      $content .= '<div id="blog_title">'."音樂"."</div>";
+      $content .= '</div>';
+      $content .= '<div id="blog_content">';
+
+      if (isset($_SESSION["token"])) {
+        $content .= '<table cellpadding="0" cellspacing="0" width="100%">';
+        $content .= '<tr style="text-decoration:underline"><td>封存</td><td>音樂</td></tr>';
+        $num = 0;
+        while($row = mysqli_fetch_assoc($result)){
+          $query = "SELECT `blog` FROM `blog` WHERE archive=".$row["id"];
+          $result2 = mysqli_query($sql_sy, $query);
+          $sum = 0;
+          $i = 0;
+          $text = "";
+          while($row2 = mysqli_fetch_assoc($result2)){
+            $text .= $row2["blog"];
+          }
+          mysqli_free_result($result2);
+          preg_match_all('/\[music](.+?)\[\/music]/', $text, $matches);
+          foreach($matches[1] as &$value) {
+            $i++;
+          }
+          $content .= "<tr><td><a href=\"/music/".$row["id"]."/\">".$row["name"]."</a></td><td>".$i."首</td></tr>";
+          $num += $i;
+        }
+        $content .= "<tr><td><a href=\"/music/all/\">總數</a></td><td>".$num."首</td></tr>";
+        $content .= "</table>";
+      } else $content .= '請先登入';
+
+      $content .= '</div>';
+      $content .= '<div id="blog_foot">';
+      $content .= '</div>';
+      
+      mysqli_free_result($result);
+    }
+    elseif($uri[3] == ""){
+      $id = intval($uri[2]);
+      $content .= '<div id="blog_head">';
+      $content .= $id ? '<div id="blog_title">'.$id.'年音樂</div>' : '<div id="blog_title">所有音樂</div>';
+      $content .= '</div>';
+      $content .= '<div id="blog_content">';
+      
+      if (isset($_SESSION["token"])) {
+        if(intval($uri[2])) $query = "SELECT blog,time FROM blog WHERE archive = $id ORDER BY time ASC";
+        elseif($uri[2]='all') $query = "SELECT blog,time FROM blog ORDER BY time ASC";
+        
+        $result = mysqli_query($sql_sy, $query);
+        $body = "";
+        while ($row = mysqli_fetch_assoc($result)) {
+          $temp = ''.explode(" ", $row["time"])[0].'<br>';
+          preg_match_all('/\[music](.+?)\[\/music]/', $row["blog"], $matches);
+          foreach($matches[1] as &$value) {
+            $temp .= ''.str_replace(".mp3", "", $value).'<br><audio src="/mp3/'.$value.'" controls loop preload="none"></audio><br>';
+          }
+          $temp .= '<br>';
+          if(sizeof($matches[1]) > 0) $body .= $temp;
+        }
+        mysqli_free_result($result);
+        $content .= $body === "" ? '沒有音樂' : $body;
+      } else $content .= '請先登入';
+      
+      $content .= '<div style="clear: both"></div>';
+      $content .= '</div>';
+      $content .= '<div id="blog_foot">';
+      $content .= '</div>';
+    }
+
+  break;
   case "search":
 
     if($uri[2] == ""){
@@ -479,6 +552,7 @@ switch ($uri[1]) {
 <a href="/archive/">Archive</a> - 
 <a href="/category/">Category</a> - 
 <a href="/album/">Album</a> - 
+<a href="/music/">Music</a> - 
 <a href="/about/">About</a> - 
 <a href="/search/">Search</a>
 <?php if(isset($next_blog)) echo ' - <a href="/blog/'.$next_blog.'/">&gt;&gt;</a>'; elseif(isset($prev_blog)) echo ' - &gt;&gt;'; ?>
@@ -493,6 +567,7 @@ switch ($uri[1]) {
 <a href="/archive/">Archive</a> - 
 <a href="/category/">Category</a> - 
 <a href="/album/">Album</a> - 
+<a href="/music/">Music</a> - 
 <a href="/about/">About</a> - 
 <a href="/search/">Search</a>
 <?php if(isset($next_blog)) echo ' - <a href="/blog/'.$next_blog.'/">&gt;&gt;</a>'; elseif(isset($prev_blog)) echo ' - &gt;&gt;'; ?>
