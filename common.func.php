@@ -44,11 +44,11 @@ function imageresize($src, $dest, $destW, $destH){
 	}
 	$destimage = imagecreatetruecolor($destW,$destH);
 	
-	switch($srcextension){
-		case 1: $srcimage = imagecreatefromgif($src); break;
-		case 2: $srcimage = imagecreatefromjpeg($src); break;
-		case 3: $srcimage = imagecreatefrompng($src); break;
-	}
+	$srcimage = match($srcextension) {
+		1 => imagecreatefromgif($src),
+		2 => imagecreatefromjpeg($src),
+		3 => imagecreatefrompng($src),
+	};
 	imagecopyresampled($destimage, $srcimage, 0, 0, 0, 0, $destW, $destH, imagesx($srcimage), imagesy($srcimage));
 	imagejpeg($destimage, $dest, 90); 	
 }
@@ -116,7 +116,7 @@ function fmt_pic($src){
 function fmt_blog($t){
 	$text = $t;
 	$text = preg_replace_callback('/\[pic]([^[]*)\[\/pic]/', 'fmt_pic', $text);
-	$text = str_replace('[music]', '[music]/music/', $text);
+	$text = str_replace('[music]', '[music]/mp3/', $text);
 	$text = preg_replace_callback('/\[music]([^[]*)\[\/music]/', 'fmt_music', $text);
 	$text = str_replace('[icon]', '<img class="icon" loading="lazy" src="/image/icon/', $text);
 	$text = str_replace('[/icon]', '.gif">', $text);

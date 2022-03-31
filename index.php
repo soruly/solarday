@@ -360,12 +360,12 @@ switch ($uri[1]) {
         
         $file_extension = strtolower(pathinfo($row["filename"], PATHINFO_EXTENSION));
         
-        switch ($file_extension) {
-          case "jpg": $ctype="image/jpeg"; break;
-          case "png": $ctype="image/png"; break;
-          case "gif": $ctype="image/gif"; break;
-          default: $ctype="application/force-download";
-        }
+        $ctype = match ($file_extension) {
+          "jpg" => "image/jpeg",
+          "png" => "image/png",
+          "gif" => "image/gif",
+          default => "application/force-download",
+        };
         
         $file = './pic/photo/'.$row["id"].'.'.$file_extension;
         if(is_file($file)){        
