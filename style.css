@@ -270,7 +270,16 @@ audio {
   cursor: pointer;
   transform: scale(1.1, 1.1);
 }
-
+@media (prefers-reduced-motion) {
+  .thumb,
+  .thumb:nth-child(2n),
+  .thumb:nth-child(3n),
+  .thumb:nth-child(5n),
+  .thumb:hover {
+    transition: none;
+    transform: none;
+  }
+}
 div.right {
   text-align: right;
 }
