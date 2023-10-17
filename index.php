@@ -531,6 +531,30 @@ switch ($uri[1]) {
 
   break;
 }
+header("Referrer-Policy: no-referrer");
+header("X-Content-Type-Options: nosniff");
+header("X-XSS-Protection: 1; mode=block");
+header("Content-Security-Policy: ".implode("; ", [
+  "default-src 'none'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "connect-src 'self'",
+  "media-src 'self'",
+  "form-action 'self'",
+  "base-uri 'none'",
+  "frame-ancestors 'none'",
+  "block-all-mixed-content",
+]));
+header("Link: ".implode(", ", [
+  "</style.css>; as=style; rel=preload",
+  "</turbolinks.min.js>; as=script; rel=preload",
+  "</common.js>; as=script; rel=preload",
+  "</image/bg.png>; as=image; rel=preload",
+  "</image/top.png>; as=image; rel=preload",
+  "</image/middle.png>; as=image; rel=preload",
+  "</image/bottom.png>; as=image; rel=preload",
+]));
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
