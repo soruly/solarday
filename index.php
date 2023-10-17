@@ -533,7 +533,6 @@ switch ($uri[1]) {
 }
 header("Referrer-Policy: no-referrer");
 header("X-Content-Type-Options: nosniff");
-header("X-XSS-Protection: 1; mode=block");
 header("Content-Security-Policy: ".implode("; ", [
   "default-src 'none'",
   "script-src 'self'",
